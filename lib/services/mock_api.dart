@@ -1,26 +1,45 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
+// lib/services/mock_api.dart
+
 class MockApi {
   Future<List<String>> fetchWorkouts() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    return const ["Push Ups", "Running", "Yoga"];
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList('workouts') ?? [];
   }
 
-  Future<String> fetchGoal() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    return "Run 5km every week";
+  Future<void> saveWorkouts(List<String> workouts) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('workouts', workouts);
   }
 
   Future<int> fetchWaterIntake() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    return 8;
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('waterIntake') ?? 8;
   }
 
-  Future<List<int>> fetchWeeklyWorkouts() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    return const [3, 4, 2, 5, 1, 0, 4];
+  Future<void> saveWaterIntake(int intake) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('waterIntake', intake);
   }
 
-  Future<List<int>> fetchWeeklyWaterIntake() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    return const [8, 7, 6, 8, 9, 7, 8];
+  Future<String> fetchGoal() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('goal') ?? "Run 5km every week";
+  }
+
+  Future<void> saveGoal(String goal) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('goal', goal);
+  }
+
+  Future<List<String>> fetchGoals() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList('goals') ?? [];
+  }
+
+  Future<void> saveGoals(List<String> goals) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('goals', goals);
   }
 }
